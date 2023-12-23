@@ -13,10 +13,6 @@ app.use(limiter)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get("/home", (req, res) => {
-  res.status(200).json("Welcome, your app is working well")
-})
-
 app.use(routes)
 
 app.use((req, res, next) => {
