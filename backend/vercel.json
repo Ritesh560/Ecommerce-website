@@ -2,15 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["clients/**", "controllers/**", "helpers/**", "middlewares/**", "models/**", "routes/**", "cache.js", "rate-limiter.js", "roles.js"] }
+      "src": "src/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.js"
+      "dest": "src/index.js"
     }
   ]
 }
