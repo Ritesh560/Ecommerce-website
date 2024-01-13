@@ -1,4 +1,4 @@
-# Run the Project
+# Configure the Project
 
 ### Backend
 
