@@ -40,23 +40,23 @@
 - joi
 - jsonwebtoken
 - mongoose
-- sucrase
+<!--- - sucrase -->
 
 ### frontend
 
-- @chakra-ui/react
+<!---- @chakra-ui/react
 - antd
-- axios
 - formik
-- framer-motion
+- framer-motion-->
+- axios
 - moment
 - react-dom
 - react-image-gallery
 - react-query
 - react-router-dom
-- react-scripts
+<!---- react-scripts
 - web-vitals
-- yup
+- yup -->
 
 ### database
 
