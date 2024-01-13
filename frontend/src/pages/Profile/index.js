@@ -1,17 +1,17 @@
-import React from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { Text, Button, Alert, AlertIcon, Box } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { useAuth } from "../../contexts/AuthContext"
+import { Text, Button, Alert, AlertIcon, Box, Center, VStack, Heading, Avatar } from "@chakra-ui/react"
+import { Link } from "react-router-dom"
 
 function Profile() {
-  const { user, logout, loggedIn } = useAuth();
+  const { user, logout, loggedIn } = useAuth()
 
   const handleLogout = async () => {
-    logout();
-  };
+    logout()
+  }
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       {loggedIn === false && (
         <>
           <Alert status="warning">
@@ -32,7 +32,26 @@ function Profile() {
       )}
       {loggedIn === true && (
         <>
-          <Text fontSize={28} fontWeight={700}>
+          <Center height="100%">
+            <VStack spacing={6} align="center" bg="gray.100" p={8} rounded="lg" boxShadow="lg" maxW="md" w="100%">
+              <Avatar size="xl" name={user.email} mb={4} />
+
+              <Heading as="h1" size="xl">
+                Welcome, {user.email}!
+              </Heading>
+
+              <Box>
+                <Text fontSize="lg" fontWeight={600}>
+                  Role: {user.role}
+                </Text>
+              </Box>
+
+              <Button colorScheme="teal" size="md" onClick={logout} _hover={{ bg: "teal.600" }}>
+                Logout
+              </Button>
+            </VStack>
+          </Center>
+          {/* <Text fontSize={28} fontWeight={700}>
             Profile
           </Text>
           <Box mt={4}>
@@ -46,11 +65,11 @@ function Profile() {
             <Button colorScheme="pink" variant="solid" onClick={handleLogout}>
               Logout
             </Button>
-          </Link>
+          </Link> */}
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

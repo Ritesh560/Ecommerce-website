@@ -1,5 +1,5 @@
 import "./App.css"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Signin from "./pages/Auth/Signin/index"
 import Signup from "./pages/Auth/Signup/index"
@@ -15,6 +15,8 @@ import AdminProductDetail from "./pages/Admin/AdminProductDetail"
 import NewProduct from "./pages/Products/New"
 
 function App() {
+  const navigate = useNavigate()
+
   return (
     <div className="pageContainer">
       <Navbar />
@@ -22,8 +24,8 @@ function App() {
         <Routes>
           <Route path="/" exect index element={<Products />} />
           <Route path="/product/:product_id" element={<ProductDetail />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin navigate={navigate} />} />
+          <Route path="/signup" element={<Signup navigate={navigate} />} />
           <Route path="/basket" element={<Basket />} />
           <Route path="/profile" element={<ProductedProfile />} />
           <Route path="/admin">

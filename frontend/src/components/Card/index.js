@@ -1,15 +1,12 @@
 import React from "react"
 import { Card, Text, Image, Stack, Heading, CardBody, CardFooter, Divider, ButtonGroup, Button, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import moment from "moment"
 import { useBasket } from "../../contexts/BasketContext"
 
 function Cards({ item }) {
   const { addToBasket, items } = useBasket()
 
   const findBasketItem = items.find((basket_item) => basket_item._id === item._id)
-
-  console.log(item)
 
   return (
     <Card maxW="sm">
