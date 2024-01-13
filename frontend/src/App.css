@@ -1,3 +1,9 @@
+.pageContainer {
+  background: rgb(254, 247, 226);
+  height: 100vh;
+  overflow: auto;
+}
+
 #content {
   padding: 15px;
 }

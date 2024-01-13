@@ -1,22 +1,22 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Signin from "./pages/Auth/Signin/index";
-import Signup from "./pages/Auth/Signup/index";
-import Products from "./pages/Products/index";
-import ProductDetail from "./pages/ProductDetail/index";
-import Basket from "./pages/Basket/index";
-import Error404 from "./pages/Error404/index";
-import ProductedProfile from "./pages/ProductedRoute/ProductedProfile";
-import ProductedAdmin from "./pages/ProductedRoute/ProductedAdmin";
-import Orders from "./pages/Admin/Orders";
-import AdminProducts from "./pages/Admin/AdminProducts";
-import AdminProductDetail from "./pages/Admin/AdminProductDetail";
-import NewProduct from "./pages/Products/New";
+import "./App.css"
+import { Routes, Route } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import Signin from "./pages/Auth/Signin/index"
+import Signup from "./pages/Auth/Signup/index"
+import Products from "./pages/Products/index"
+import ProductDetail from "./pages/ProductDetail/index"
+import Basket from "./pages/Basket/index"
+import Error404 from "./pages/Error404/index"
+import ProductedProfile from "./pages/ProductedRoute/ProductedProfile"
+import ProductedAdmin from "./pages/ProductedRoute/ProductedAdmin"
+import Orders from "./pages/Admin/Orders"
+import AdminProducts from "./pages/Admin/AdminProducts"
+import AdminProductDetail from "./pages/Admin/AdminProductDetail"
+import NewProduct from "./pages/Products/New"
 
 function App() {
   return (
-    <>
+    <div className="pageContainer">
       <Navbar />
       <div id="content">
         <Routes>
@@ -38,8 +38,8 @@ function App() {
           <Route path="*" element={<Error404 />} />
         </Routes>
       </div>
-    </>
-  );
+    </div>
+  )
 }
 
-export default App;
+export default App

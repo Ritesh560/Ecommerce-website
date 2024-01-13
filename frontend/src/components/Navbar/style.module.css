@@ -5,6 +5,7 @@
   border-bottom: solid 1px #e2e8f0;
   line-height: 2px;
   align-items: center;
+  background: rgb(255, 255, 253);
 }
 .nav .left {
   display: flex;
@@ -18,16 +19,16 @@
   margin-left: 40px;
 }
 .nav .left .menu li a {
-  color: #4a5568;
   text-decoration: none;
   font-size: 1.1rem;
   padding: 3px 16px;
   display: block;
   font-size: 16px;
+  font-weight: 500;
 }
 .nav .left .menu li a:hover {
   color: #000;
 }
 .nav .right a:first-child {
-  margin-right: 5px;
+  margin-right: 20px;
 }

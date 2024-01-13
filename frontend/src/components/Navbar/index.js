@@ -1,19 +1,19 @@
-import React from "react";
-import styles from "./style.module.css";
-import { Link } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
-import { useAuth } from "../../contexts/AuthContext";
-import { useBasket } from "../../contexts/BasketContext";
+import React from "react"
+import styles from "./style.module.css"
+import { Link } from "react-router-dom"
+import { Button } from "@chakra-ui/react"
+import { useAuth } from "../../contexts/AuthContext"
+import { useBasket } from "../../contexts/BasketContext"
 
 function Navbar() {
-  const { loggedIn, user } = useAuth();
-  const { items } = useBasket();
+  const { loggedIn, user } = useAuth()
+  const { items } = useBasket()
 
   return (
     <nav className={styles.nav}>
       <div className={styles.left}>
         <div className={styles.logo}>
-          <Link to="/">eCommerce</Link>
+          <Link to="/">ShopSphere</Link>
         </div>
         <ul className={styles.menu}>
           <li>
@@ -57,7 +57,7 @@ function Navbar() {
         )}
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
