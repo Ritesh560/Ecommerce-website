@@ -2,7 +2,7 @@
 
 ### Backend
 
-- you have to enter the backend folder by typing `cd backend` in the terminal
+- You have to enter the backend folder by typing `cd backend` in the terminal
 - In the project directory,Install libraries by typing `yarn`
 - Open a new file named .env
 
@@ -19,8 +19,9 @@
 
 ### Frontend
 
-- you have to enter the frontend folder by typing `cd frontend` in the terminal
+- You have to enter the frontend folder by typing `cd frontend` in the terminal
 - In the project directory,Install libraries by typing `yarn`
+- Create a .env file same as sample.env and update the backend url
 - Then Run backend project with `yarn start`
 - You can reach the project from [localhost:3000](http://localhost:3000/)
 
