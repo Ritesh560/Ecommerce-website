@@ -1,4 +1,4 @@
-import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Text, Heading } from "@chakra-ui/react"
+import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Text, Heading, Spinner, Center } from "@chakra-ui/react"
 import React from "react"
 import { Link } from "react-router-dom"
 import "../style.css"
@@ -9,7 +9,11 @@ import AdminNavbar from "../AdminNavbar"
 function Orders() {
   const { isLoading, isError, data, error } = useQuery("admin:orders", fetchOrders)
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <Center width="100%" height="100%">
+        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" />
+      </Center>
+    )
   }
   if (isError) {
     return <div>Error {error.message}</div>

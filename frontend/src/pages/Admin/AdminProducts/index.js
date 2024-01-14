@@ -68,8 +68,8 @@ const AdminProducts = () => {
 
   if (isLoading) {
     return (
-      <Center height="100vh">
-        <Spinner />
+      <Center height="100%">
+        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" />
       </Center>
     )
   }
