@@ -1,37 +1,38 @@
-import React from "react";
-import Cards from "../../components/Card";
-import { Grid, Box, Flex, Button } from "@chakra-ui/react";
-import { useInfiniteQuery } from "react-query";
-import { fetchProductList } from "../../api.js";
+import React from "react"
+import Cards from "../../components/Card"
+import { Grid, Box, Flex, Button } from "@chakra-ui/react"
+import { useInfiniteQuery } from "react-query"
+import { fetchProductList } from "../../api.js"
 
 function Products() {
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery("products", fetchProductList, {
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery("products", fetchProductList, {
     getNextPageParam: (lastGroup, allGroups) => {
-      const morePagesExist = lastGroup?.length === 12;
+      const morePagesExist = lastGroup?.length === 12
 
       if (!morePagesExist) {
-        return;
+        return
       } else {
-        return allGroups.length + 1;
+        return allGroups.length + 1
       }
     },
-  });
+  })
 
-  if (status === "loading") return "Loading...";
+  if (status === "loading") return "Loading..."
 
-  if (status === "error") return "An error has occurred: " + error.message;
+  if (status === "error") return "An error has occurred: " + error.message
 
   return (
     <div>
       <div className="products">
-        <Grid templateColumns="repeat(3,1fr)" gap={4}>
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+            xl: "repeat(4, 1fr)",
+          }}
+          gap={4}
+        >
           {data.pages.map((group, i) => (
             <React.Fragment key={i}>
               {group.map((item) => (
@@ -44,20 +45,12 @@ function Products() {
         </Grid>
       </div>
       <Flex mt="10" justifyContent="center">
-        <Button
-          onClick={() => fetchNextPage()}
-          isLoading={isFetchingNextPage}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? "Loading more..."
-            : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
+        <Button onClick={() => fetchNextPage()} isLoading={isFetchingNextPage} disabled={!hasNextPage || isFetchingNextPage}>
+          {isFetchingNextPage ? "Loading more..." : hasNextPage ? "Load More" : "Nothing more to load"}
         </Button>
       </Flex>
     </div>
-  );
+  )
 }
 
-export default Products;
+export default Products

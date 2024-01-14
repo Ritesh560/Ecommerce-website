@@ -1,4 +1,13 @@
+.pageContainer {
+  background: rgb(254, 247, 226);
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 #content {
+  flex: 1;
   padding: 15px;
 }
 
