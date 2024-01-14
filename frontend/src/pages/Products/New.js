@@ -38,8 +38,7 @@ function NewProduct() {
     <div>
       <AdminNavbar />
 
-      <Box mt={10}>
-        <Text fontsize="2xl">Edit</Text>
+      <Box mt={6}>
         <Formik
           initialValues={{
             title: "",
@@ -53,7 +52,7 @@ function NewProduct() {
           {({ handleSubmit, errors, touched, handleChange, handleBlur, values, isSubmitting }) => (
             <>
               <Box>
-                <Box my={5} textAlign="left">
+                <Box m={5} textAlign="left">
                   <form onSubmit={handleSubmit}>
                     <FormControl>
                       <FormLabel>Title</FormLabel>
@@ -90,21 +89,21 @@ function NewProduct() {
                           <div>
                             {values.photos &&
                               values.photos.map((photo, index) => (
-                                <div key={index}>
+                                <div key={index} style={{ marginBottom: "10px", display: "flex", alignItems: "center" }}>
                                   <Input name={`photos.${index}`} value={photo} disabled={isSubmitting} onChange={handleChange} width="90%" />
                                   <Button ml="4" type="button" colorScheme="red" onClick={() => arrayHelpers.remove(index)}>
                                     Remove
                                   </Button>
                                 </div>
                               ))}
-                            <Button mt="5" onClick={() => arrayHelpers.push("")}>
+                            <Button colorScheme="messenger" onClick={() => arrayHelpers.push("")}>
                               Add a Photo
                             </Button>
                           </div>
                         )}
                       />
                     </FormControl>
-                    <Button mt={4} width="full" type="submit" isLoading={isSubmitting}>
+                    <Button colorScheme="green" my={8} width="full" type="submit" isLoading={isSubmitting} boxShadow="lg">
                       Add Product
                     </Button>
                   </form>

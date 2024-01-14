@@ -1,4 +1,4 @@
-import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Text } from "@chakra-ui/react"
+import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Text, Heading } from "@chakra-ui/react"
 import React from "react"
 import { Link } from "react-router-dom"
 import "../style.css"
@@ -18,18 +18,20 @@ function Orders() {
   return (
     <div>
       <AdminNavbar />
-      <Box mt={10}>
-        <Text fontSize="2xl" p={5}>
+      <Box>
+        <Heading fontSize="2xl" p={5} pb={3}>
           Orders
-        </Text>
+        </Heading>
 
         <Table variant="simple">
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
+          <TableCaption>Orders placed by users.</TableCaption>
           <Thead>
             <Tr>
-              <Th>Users</Th>
-              <Th>Address</Th>
-              <Th>Items</Th>
+              <Th fontSize="14px">Users</Th>
+              <Th fontSize="14px">Address</Th>
+              <Th fontSize="14px" isNumeric>
+                Items
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
