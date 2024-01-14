@@ -2,7 +2,7 @@ import React from "react"
 import { useParams } from "react-router-dom"
 import { fetchProduct, updateProduct } from "../../../api"
 import { useQuery } from "react-query"
-import { Box, FormControl, FormLabel, Text, Input, Textarea, Button } from "@chakra-ui/react"
+import { Box, FormControl, FormLabel, Text, Input, Textarea, Button, Center, Spinner } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import "../style.css"
 import { Formik, FieldArray } from "formik"
@@ -15,7 +15,11 @@ function AdminProductDetail() {
 
   const { isLoading, isError, data, error } = useQuery(["admin:product", product_id], () => fetchProduct(product_id))
   if (isLoading) {
-    return <div>Loading</div>
+    return (
+      <Center width="100%" height="100%">
+        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" />
+      </Center>
+    )
   }
   if (isError) {
     return <div>Error {error.message}</div>

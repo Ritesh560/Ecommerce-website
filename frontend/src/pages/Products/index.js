@@ -1,6 +1,6 @@
 import React from "react"
 import Cards from "../../components/Card"
-import { Grid, Box, Flex, Button } from "@chakra-ui/react"
+import { Grid, Box, Flex, Button, Center, Spinner } from "@chakra-ui/react"
 import { useInfiniteQuery } from "react-query"
 import { fetchProductList } from "../../api.js"
 
@@ -17,7 +17,12 @@ function Products() {
     },
   })
 
-  if (status === "loading") return "Loading..."
+  if (status === "loading")
+    return (
+      <Center width="100%" height="100%">
+        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" />
+      </Center>
+    )
 
   if (status === "error") return "An error has occurred: " + error.message
 
