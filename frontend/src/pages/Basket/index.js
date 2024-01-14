@@ -1,90 +1,61 @@
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Alert,
-  Image,
-  AlertIcon,
-  Button,
-  Box,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  useDisclosure,
-  Textarea,
-} from "@chakra-ui/react";
-import { useBasket } from "../../contexts/BasketContext";
-import { postOrder } from "../../api.js";
+import React, { useRef, useState } from "react"
+import { Link } from "react-router-dom"
+import { Alert, Image, AlertIcon, Button, Box, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, useDisclosure, Textarea, Grid } from "@chakra-ui/react"
+import { useBasket } from "../../contexts/BasketContext"
+import { postOrder } from "../../api.js"
+import Cards from "../../components/Card/index.js"
 
 function Basket() {
-  const [address, setAddress] = useState();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = useRef(null);
+  const [address, setAddress] = useState()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = useRef(null)
 
-  const { items, removeFromBasket, emptyBasket } = useBasket();
-  const total = items.reduce((acc, obj) => acc + obj.price, 0);
+  const { items, removeFromBasket, emptyBasket } = useBasket()
+  const total = items.reduce((acc, obj) => acc + obj.price, 0)
 
   const handleSubmitForm = async () => {
-    const itemIds = items.map((item) => item._id);
+    const itemIds = items.map((item) => item._id)
     const input = {
       address,
       items: JSON.stringify(itemIds),
-    };
+    }
 
-    await postOrder(input);
+    await postOrder(input)
 
-    emptyBasket();
-    onClose();
-  };
+    emptyBasket()
+    onClose()
+  }
 
   return (
     <Box p="5">
       {items.length < 1 && (
-        <Alert status="warning">
+        <Alert status="warning" borderRadius={"10px"}>
           <AlertIcon />
-          You have not any items in your basket.
+          Your basket is empty.
         </Alert>
       )}
       {items.length > 0 && (
         <>
-          <ul style={({ listStyleType: "decimal" }, { display: "flex" })}>
-            {items.map((item) => (
-              <li key={item._id} style={({ margin: 20 }, { width: "25%" })}>
-                <Link to={`/product/${item._id}`}>
-                  <Text fontSize="22">
-                    {item.title} - {item.price} $
-                  </Text>
-                  <Image
-                    htmlWidth={300}
-                    loading="lazy"
-                    src={item.photos[0]}
-                    alt="basket item"
-                    boxSize={250}
-                    objectFit="cover"
-                    borderRadius="20px"
-                  />
-                </Link>
-                <Button
-                  mt="2"
-                  size="sm"
-                  colorScheme="red"
-                  onClick={() => removeFromBasket(item._id)}
-                >
-                  Remove from Basket
-                </Button>
-              </li>
+          <Grid
+            templateColumns={{
+              base: "1fr",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(3, 1fr)",
+              xl: "repeat(4, 1fr)",
+            }}
+            gap={4}
+          >
+            {items.map((item, i) => (
+              <Box w="100%" key={item._id}>
+                <Cards item={item} basket={true} />
+              </Box>
             ))}
-          </ul>
+          </Grid>
+
           <Box mt="10">
             <Text fontSize="22">Total: {total}$</Text>
           </Box>
-          {/* Order kısmı buradan sonra başlamaktadır. */}
+
           <Button onClick={onOpen} colorScheme="whatsapp" mt={4}>
             Buy now
           </Button>
@@ -92,17 +63,12 @@ function Basket() {
           <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Create your account</ModalHeader>
+              <ModalHeader>Enter your delivery address</ModalHeader>
               <ModalCloseButton />
               <ModalBody pb={6}>
                 <FormControl>
                   <FormLabel>Adress</FormLabel>
-                  <Textarea
-                    ref={initialRef}
-                    placeholder="Adress"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
+                  <Textarea ref={initialRef} placeholder="Adress" value={address} onChange={(e) => setAddress(e.target.value)} />
                 </FormControl>
               </ModalBody>
 
@@ -117,7 +83,7 @@ function Basket() {
         </>
       )}
     </Box>
-  );
+  )
 }
 
-export default Basket;
+export default Basket

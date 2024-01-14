@@ -1,21 +1,19 @@
-import { Box, Text, Button } from "@chakra-ui/react";
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import "../style.css";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchProductList, deleteProduct } from "../../../api";
-import { Table, Popconfirm } from "antd";
+import { Box, Text, Button } from "@chakra-ui/react"
+import React, { useMemo } from "react"
+import { Link } from "react-router-dom"
+import "../style.css"
+import { useQuery, useMutation, useQueryClient } from "react-query"
+import { fetchProductList, deleteProduct } from "../../../api"
+import { Table, Popconfirm } from "antd"
+import AdminNavbar from "../AdminNavbar"
 
 function AdminProducts() {
-  const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery(
-    "admin:products",
-    fetchProductList
-  );
+  const queryClient = useQueryClient()
+  const { isLoading, isError, data, error } = useQuery("admin:products", fetchProductList)
 
   const deleteMutation = useMutation(deleteProduct, {
     onSuccess: () => queryClient.invalidateQueries("admin:products"),
-  });
+  })
 
   const columns = useMemo(() => {
     return [
@@ -47,9 +45,9 @@ function AdminProducts() {
               onConfirm={() => {
                 deleteMutation.mutate(record._id, {
                   onSuccess: () => {
-                    alert("ürün silindi");
+                    alert("ürün silindi")
                   },
-                });
+                })
               }}
               onCancel={() => console.log("iptal edildi")}
               okText="Yes"
@@ -63,37 +61,19 @@ function AdminProducts() {
           </>
         ),
       },
-    ];
-  }, [deleteMutation]);
+    ]
+  }, [deleteMutation])
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.message}</div>
   }
   return (
     <div>
-      <nav>
-        <ul className="admin-menu">
-          <li>
-            <Link to="/admin">Home</Link>
-          </li>
-          <li>
-            <Link to="/admin/orders">Order</Link>
-          </li>
-          <li>
-            <Link to="/admin/products">Products</Link>
-          </li>
-        </ul>
-      </nav>
+      <AdminNavbar />
       <Box mt={10}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={4}
-          mr={10}
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center" p={4} mr={10}>
           <Text fontSize="2xl" p="5">
             Products
           </Text>
@@ -105,7 +85,7 @@ function AdminProducts() {
         <Table dataSource={data} columns={columns} rowKey="_id" />
       </Box>
     </div>
-  );
+  )
 }
 
-export default AdminProducts;
+export default AdminProducts

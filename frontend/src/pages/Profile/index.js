@@ -37,8 +37,11 @@ function Profile() {
               <Avatar size="xl" name={user.email} mb={4} />
 
               <Heading as="h1" size="xl">
-                Welcome, {user.email}!
+                Welcome
               </Heading>
+              <Text fontSize="xl" fontWeight="bold" isTruncated>
+                {user.email}
+              </Text>
 
               <Box>
                 <Text fontSize="lg" fontWeight={600}>
@@ -46,26 +49,13 @@ function Profile() {
                 </Text>
               </Box>
 
-              <Button colorScheme="teal" size="md" onClick={logout} _hover={{ bg: "teal.600" }}>
-                Logout
-              </Button>
+              <Link to="/">
+                <Button colorScheme="teal" size="md" onClick={handleLogout} _hover={{ bg: "teal.600" }}>
+                  Logout
+                </Button>{" "}
+              </Link>
             </VStack>
           </Center>
-          {/* <Text fontSize={28} fontWeight={700}>
-            Profile
-          </Text>
-          <Box mt={4}>
-            <Text fontSize={20}>email: {user.email}</Text>
-            <Text fontSize={20}>role: {user.role}</Text>
-          </Box>
-
-          <br />
-          <br />
-          <Link to="/">
-            <Button colorScheme="pink" variant="solid" onClick={handleLogout}>
-              Logout
-            </Button>
-          </Link> */}
         </>
       )}
     </div>

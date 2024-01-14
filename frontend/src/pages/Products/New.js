@@ -1,34 +1,27 @@
-import React from "react";
-import { postProduct } from "../../api";
-import { useMutation, useQueryClient } from "react-query";
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Text,
-  Input,
-  Textarea,
-  Button,
-} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { Formik, FieldArray } from "formik";
-import validationSchema from "./validations";
-import { message } from "antd";
+import React from "react"
+import { postProduct } from "../../api"
+import { useMutation, useQueryClient } from "react-query"
+import { Box, FormControl, FormLabel, Text, Input, Textarea, Button } from "@chakra-ui/react"
+import { Link } from "react-router-dom"
+import { Formik, FieldArray } from "formik"
+import validationSchema from "./validations"
+import { message } from "antd"
+import AdminNavbar from "../Admin/AdminNavbar"
 
 function NewProduct() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const newProductMutation = useMutation(postProduct, {
     onSuccess: () => queryClient.invalidateQueries("admin:products"),
-  });
+  })
 
   const handleSubmit = async (values, bag) => {
-    console.log(values);
-    message.loading({ content: "Loading...", key: "product_update" });
+    console.log(values)
+    message.loading({ content: "Loading...", key: "product_update" })
 
     const newValues = {
       ...values,
       photos: JSON.stringify(values.photos),
-    };
+    }
 
     newProductMutation.mutate(newValues, {
       onSuccess: () => {
@@ -36,26 +29,15 @@ function NewProduct() {
           content: "Add Product is successfully",
           key: "product_update",
           duration: 2,
-        });
+        })
       },
-    });
-  };
+    })
+  }
 
   return (
     <div>
-      <nav>
-        <ul className="admin-menu">
-          <li>
-            <Link to="/admin">Home</Link>
-          </li>
-          <li>
-            <Link to="/admin/orders">Order</Link>
-          </li>
-          <li>
-            <Link to="/admin/products">Products</Link>
-          </li>
-        </ul>
-      </nav>
+      <AdminNavbar />
+
       <Box mt={10}>
         <Text fontsize="2xl">Edit</Text>
         <Formik
@@ -68,29 +50,14 @@ function NewProduct() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({
-            handleSubmit,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            values,
-            isSubmitting,
-          }) => (
+          {({ handleSubmit, errors, touched, handleChange, handleBlur, values, isSubmitting }) => (
             <>
               <Box>
                 <Box my={5} textAlign="left">
                   <form onSubmit={handleSubmit}>
                     <FormControl>
                       <FormLabel>Title</FormLabel>
-                      <Input
-                        name="title"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.title}
-                        disabled={isSubmitting}
-                        isInvalid={touched.title && errors.title}
-                      />
+                      <Input name="title" onChange={handleChange} onBlur={handleBlur} value={values.title} disabled={isSubmitting} isInvalid={touched.title && errors.title} />
                       {touched.title && errors.title && (
                         <Text mt={2} color="red.500">
                           {errors.title}
@@ -99,14 +66,7 @@ function NewProduct() {
                     </FormControl>
                     <FormControl mt={4}>
                       <FormLabel>Description</FormLabel>
-                      <Textarea
-                        name="description"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.description}
-                        disabled={isSubmitting}
-                        isInvalid={touched.description && errors.description}
-                      />
+                      <Textarea name="description" onChange={handleChange} onBlur={handleBlur} value={values.description} disabled={isSubmitting} isInvalid={touched.description && errors.description} />
                       {touched.description && errors.description && (
                         <Text mt={2} color="red.500">
                           {errors.description}
@@ -115,14 +75,7 @@ function NewProduct() {
                     </FormControl>
                     <FormControl mt={4}>
                       <FormLabel>Price</FormLabel>
-                      <Input
-                        name="price"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.price}
-                        disabled={isSubmitting}
-                        isInvalid={touched.description && errors.description}
-                      />
+                      <Input name="price" onChange={handleChange} onBlur={handleBlur} value={values.price} disabled={isSubmitting} isInvalid={touched.description && errors.description} />
                       {touched.price && errors.price && (
                         <Text mt={2} color="red.500">
                           {errors.price}
@@ -138,39 +91,20 @@ function NewProduct() {
                             {values.photos &&
                               values.photos.map((photo, index) => (
                                 <div key={index}>
-                                  <Input
-                                    name={`photos.${index}`}
-                                    value={photo}
-                                    disabled={isSubmitting}
-                                    onChange={handleChange}
-                                    width="90%"
-                                  />
-                                  <Button
-                                    ml="4"
-                                    type="button"
-                                    colorScheme="red"
-                                    onClick={() => arrayHelpers.remove(index)}
-                                  >
+                                  <Input name={`photos.${index}`} value={photo} disabled={isSubmitting} onChange={handleChange} width="90%" />
+                                  <Button ml="4" type="button" colorScheme="red" onClick={() => arrayHelpers.remove(index)}>
                                     Remove
                                   </Button>
                                 </div>
                               ))}
-                            <Button
-                              mt="5"
-                              onClick={() => arrayHelpers.push("")}
-                            >
+                            <Button mt="5" onClick={() => arrayHelpers.push("")}>
                               Add a Photo
                             </Button>
                           </div>
                         )}
                       />
                     </FormControl>
-                    <Button
-                      mt={4}
-                      width="full"
-                      type="submit"
-                      isLoading={isSubmitting}
-                    >
+                    <Button mt={4} width="full" type="submit" isLoading={isSubmitting}>
                       Add Product
                     </Button>
                   </form>
@@ -181,7 +115,7 @@ function NewProduct() {
         </Formik>
       </Box>
     </div>
-  );
+  )
 }
 
-export default NewProduct;
+export default NewProduct
