@@ -1,111 +1,155 @@
-import { Box, Text, Button } from "@chakra-ui/react";
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import "../style.css";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchProductList, deleteProduct } from "../../../api";
-import { Table, Popconfirm } from "antd";
+import React, { useMemo, useState } from "react"
+import { Link } from "react-router-dom"
+import { Box, Text, Button, Table, Thead, Tbody, Tr, Th, Td, Center, Spinner } from "@chakra-ui/react"
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa"
+import { useQuery, useMutation, useQueryClient } from "react-query"
+import { fetchProductList, deleteProduct } from "../../../api"
+import AdminNavbar from "../AdminNavbar"
+import { Popconfirm } from "antd"
 
-function AdminProducts() {
-  const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery(
-    "admin:products",
-    fetchProductList
-  );
+const AdminProducts = () => {
+  const queryClient = useQueryClient()
+  const { isLoading, isError, data, error } = useQuery("admin:products", fetchProductList)
 
   const deleteMutation = useMutation(deleteProduct, {
     onSuccess: () => queryClient.invalidateQueries("admin:products"),
-  });
+  })
 
-  const columns = useMemo(() => {
-    return [
+  const [deleteProductId, setDeleteProductId] = useState(null)
+
+  const onDeleteClick = (productId) => {
+    setDeleteProductId(productId)
+  }
+
+  const onDeleteConfirm = () => {
+    if (deleteProductId) {
+      deleteMutation.mutate(deleteProductId, {
+        onSuccess: () => {
+          alert("Successfully removed product.")
+          setDeleteProductId(null)
+        },
+      })
+    }
+  }
+
+  const columns = useMemo(
+    () => [
       {
-        title: "Title",
-        dataIndex: "title",
-        key: "title",
+        Header: "Title",
+        accessor: "title",
       },
       {
-        title: "Price",
-        dataIndex: "price",
-        key: "price",
+        Header: "Price",
+        accessor: "price",
       },
       {
-        title: "Created At",
-        dataIndex: "createdAt",
-        key: "createdAt",
+        Header: "Created At",
+        accessor: "createdAt",
       },
       {
-        title: "Action",
-        key: "action",
-        render: (text, record) => (
+        Header: "Actions",
+        accessor: "actions",
+        Cell: ({ row }) => (
           <>
-            <Link to={`/admin/products/${record._id}`}>
-              <Button colorScheme={"facebook"}>Edit</Button>
-            </Link>
-            <Popconfirm
-              title="Are you sure"
-              onConfirm={() => {
-                deleteMutation.mutate(record._id, {
-                  onSuccess: () => {
-                    alert("ürün silindi");
-                  },
-                });
-              }}
-              onCancel={() => console.log("iptal edildi")}
-              okText="Yes"
-              cancelText="No"
-              placement="left"
-            >
-              <Button colorScheme={"facebook"} ml="5">
-                Delete
+            <Link to={`/admin/products/${row.original._id}`}>
+              <Button colorScheme="blue" variant="outline" size="sm" leftIcon={<FaEdit />}>
+                Edit
               </Button>
-            </Popconfirm>
+            </Link>
+            <Button colorScheme="red" variant="outline" size="sm" ml={2} onClick={() => onDeleteClick(row.original._id)}>
+              <FaTrash />
+            </Button>
           </>
         ),
       },
-    ];
-  }, [deleteMutation]);
+    ],
+    [deleteMutation]
+  )
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Center height="100vh">
+        <Spinner />
+      </Center>
+    )
   }
+
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div>
+        <AdminNavbar />
+        <Text fontSize="xl" color="red.500">
+          Error: {error.message}
+        </Text>
+      </div>
+    )
   }
+
   return (
     <div>
-      <nav>
-        <ul className="admin-menu">
-          <li>
-            <Link to="/admin">Home</Link>
-          </li>
-          <li>
-            <Link to="/admin/orders">Order</Link>
-          </li>
-          <li>
-            <Link to="/admin/products">Products</Link>
-          </li>
-        </ul>
-      </nav>
-      <Box mt={10}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={4}
-          mr={10}
-        >
-          <Text fontSize="2xl" p="5">
-            Products
+      <AdminNavbar />
+      <Box p={6}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+          <Text fontSize="2xl" fontWeight="bold">
+            Product Management
           </Text>
-          <Button colorScheme={"facebook"}>
-            <Link to="/admin/products/new">New</Link>
-          </Button>
+          <Link to="/admin/products/new">
+            <Button colorScheme="teal" leftIcon={<FaPlus />}>
+              Add New Product
+            </Button>
+          </Link>
         </Box>
 
-        <Table dataSource={data} columns={columns} rowKey="_id" />
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              {columns.map((column) => (
+                <Th fontSize="14px" key={column.Header}>
+                  {column.Header}
+                </Th>
+              ))}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {data &&
+              data.map((row) => (
+                <Tr key={row._id}>
+                  {columns.map((column) =>
+                    column.accessor === "actions" ? (
+                      <>
+                        <Link to={`/admin/products/${row._id}`}>
+                          <Button colorScheme={"facebook"}>Edit</Button>
+                        </Link>
+                        <Popconfirm
+                          title="Are you sure"
+                          onConfirm={() => {
+                            deleteMutation.mutate(row._id, {
+                              onSuccess: () => {
+                                alert("Successfully removed product.")
+                              },
+                            })
+                          }}
+                          onCancel={() => console.log("iptal edildi")}
+                          okText="Yes"
+                          cancelText="No"
+                          placement="left"
+                        >
+                          <Button colorScheme={"facebook"} ml="5">
+                            Delete
+                          </Button>
+                        </Popconfirm>
+                      </>
+                    ) : (
+                      <Td key={column.accessor}>{row[column.accessor]}</Td>
+                    )
+                  )}
+                </Tr>
+              ))}
+          </Tbody>
+        </Table>
       </Box>
     </div>
-  );
+  )
 }
 
-export default AdminProducts;
+export default AdminProducts
